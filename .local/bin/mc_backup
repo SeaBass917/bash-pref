@@ -1,0 +1,19 @@
+#!/bin/bash
+# ====================================
+# S e b                         | 2023
+# ====================================
+
+# Set up the backup folder
+backup_path="/extra/backups/mc_servers/"
+[ ! -d "$backup_path" ] && mkdir -p $backup_path
+
+# Loop through all minecraft projects and copy them over to the backup folder
+status="Y"
+for mc_server_dir in $HOME/mc_servers/; do
+  echo "Backing up $mc_server_dir..."
+  cp -r "$HOME/mc_servers/$mc_server_dir" "$backup_path"
+  [ $? != 0 ] && echo "\tERROR! Failed to backup: $mc_server_dir" && status="N"
+done
+
+# Inform user if they were all successful
+[ "$status" = "Y" ] && echo "All servers backed up successfully."
